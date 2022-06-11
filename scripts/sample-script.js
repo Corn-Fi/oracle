@@ -5,6 +5,14 @@
 // Runtime Environment's members available in the global scope.
 const hre = require("hardhat");
 
+async function polygonScanVerify(contractAddress, args, contractPath) {
+  await hre.run("verify:verify", {
+    address: contractAddress,
+    constructorArguments: args,
+    contract: contractPath
+  });
+}
+
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
   // line interface.
@@ -14,13 +22,15 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const oracle = await hre.ethers.getContractFactory("Oracle");
-  const Oracle = await oracle.deploy();
+  // const oracle = await hre.ethers.getContractFactory("Oracle");
+  // const Oracle = await oracle.deploy();
 
-  await Oracle.deployed();
+  // await Oracle.deployed();
 
-  console.log("Oracle deployed to:", Oracle.address);
+  // console.log("Oracle deployed to:", Oracle.address);
+  await polygonScanVerify("0xB85fEe06B1b6a84c5Df0A0e15aEe9810b086EDBB", [], "contracts/Oracle.sol:Oracle")
 }
+
 
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
